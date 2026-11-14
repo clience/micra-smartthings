@@ -5,7 +5,7 @@ SmartThings Edge 드라이버와 NAS·미니 PC에서 실행하는 Python 중계
 
 An unofficial SmartThings Edge driver and Python LAN bridge for the Linea Micra. An always-on bridge and a La Marzocco cloud account are required. UI labels are currently Korean.
 
-**[Edge 드라이버 설치](https://bestow-regional.api.smartthings.com/invite/WY2Wd4N6Kzlr)** · [릴리스](https://github.com/joonsukjang/micra-smartthings/releases) · [문제 신고](https://github.com/joonsukjang/micra-smartthings/issues)
+**[Edge 드라이버 설치](https://bestow-regional.api.smartthings.com/invite/qyMZ8VR9b7lm)** · [릴리스](https://github.com/clience/micra-smartthings/releases) · [문제 신고](https://github.com/clience/micra-smartthings/issues)
 
 ## 동작 구조
 
@@ -51,7 +51,7 @@ Edge 드라이버만 설치하면 동작하는 제품은 아닙니다. 중계 �
 ### Python으로 실행
 
 ```sh
-git clone https://github.com/joonsukjang/micra-smartthings.git
+git clone https://github.com/clience/micra-smartthings.git
 cd micra-smartthings
 python3.13 -m venv .venv
 . .venv/bin/activate
@@ -110,7 +110,7 @@ docker build -t micra-smartthings:0.3.2 .
 
 ## 2. 공개 Edge 드라이버 설치
 
-1. **[Micra SmartThings 공개 배포 채널](https://bestow-regional.api.smartthings.com/invite/WY2Wd4N6Kzlr)**에 접속하고 허브를 소유한 삼성 계정으로 로그인합니다.
+1. **[Micra SmartThings 공개 배포 채널](https://bestow-regional.api.smartthings.com/invite/qyMZ8VR9b7lm)**에 접속하고 허브를 소유한 삼성 계정으로 로그인합니다.
 2. 채널에서 사용할 허브를 등록하고 **Micra LAN Bridge** 드라이버를 설치합니다.
 3. SmartThings 앱에서 **기기 추가 → 주변 검색**을 실행합니다.
 4. 생성된 **Linea Micra** 기기의 설정에 아래 값을 입력합니다.

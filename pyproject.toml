@@ -13,8 +13,8 @@ requires-python = ">=3.13"
 dependencies = ["pylamarzocco==2.5.6", "aiohttp>=3.12,<4"]
 
 [project.urls]
-Homepage = "https://github.com/joonsukjang/micra-smartthings"
-Issues = "https://github.com/joonsukjang/micra-smartthings/issues"
+Homepage = "https://github.com/clience/micra-smartthings"
+Issues = "https://github.com/clience/micra-smartthings/issues"
 
 [project.optional-dependencies]
 test = ["pytest>=8,<10", "pytest-asyncio>=1,<2", "PyYAML>=6,<7", "lupa>=2,<3"]
