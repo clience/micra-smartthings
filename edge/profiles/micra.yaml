@@ -1,0 +1,48 @@
+name: micra-bridge
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Switch
+preferences:
+- name: bridgeIp
+  title: 중계 서버 LAN IP 주소
+  description: NAS의 내부 네트워크 IP 주소를 입력하세요.
+  required: true
+  preferenceType: string
+  definition:
+    stringType: text
+    default: ''
+    minLength: 0
+    maxLength: 15
+- name: bridgePort
+  title: 중계 서버 포트
+  required: true
+  preferenceType: integer
+  definition:
+    minimum: 1
+    maximum: 65535
+    default: 8765
+- name: bridgeToken
+  title: 중계 서버 접속 토큰
+  description: 중계 서버에서 발급한 접속 토큰을 입력하세요.
+  required: true
+  preferenceType: string
+  definition:
+    stringType: password
+    default: ''
+    minLength: 0
+    maxLength: 128
+- name: pollSeconds
+  title: 보조 상태 확인 주기 (초)
+  description: 상태 변경은 실시간으로 전달하며, 이 주기는 누락된 상태를 확인할 때 사용합니다.
+  required: true
+  preferenceType: integer
+  definition:
+    minimum: 30
+    maximum: 300
+    default: 30

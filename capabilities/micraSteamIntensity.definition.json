@@ -1,0 +1,39 @@
+{
+  "name": "Micra Steam Intensity",
+  "attributes": {
+    "level": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setLevel",
+      "enumCommands": []
+    }
+  },
+  "commands": {
+    "setLevel": {
+      "name": "setLevel",
+      "arguments": [
+        {
+          "name": "value",
+          "optional": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          }
+        }
+      ]
+    }
+  }
+}

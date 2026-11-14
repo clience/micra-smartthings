@@ -1,0 +1,27 @@
+{
+  "tag": "en",
+  "label": "스팀 보일러",
+  "attributes": {
+    "enabled": {
+      "label": "사용 여부",
+      "displayTemplate": "{{device.label}}의 {{attribute}}: {{value}}",
+      "i18n": {
+        "value": {
+          "on": {
+            "label": "켜짐"
+          },
+          "off": {
+            "label": "꺼짐"
+          }
+        }
+      }
+    },
+    "level": {
+      "label": "강도",
+      "displayTemplate": "{{device.label}}의 {{attribute}}: {{value}}",
+      "i18n": {
+        "value": {}
+      }
+    }
+  }
+}

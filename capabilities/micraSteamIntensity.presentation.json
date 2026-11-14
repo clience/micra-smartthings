@@ -1,0 +1,51 @@
+{
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "{{i18n.attributes.level.label}}",
+      "displayType": "stepper",
+      "stepper": {
+        "command": {
+          "name": "setLevel"
+        },
+        "value": "level.value",
+        "step": 1,
+        "range": [
+          1,
+          3
+        ]
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "스팀 강도",
+        "displayType": "numberField",
+        "numberField": {
+          "value": "level.value",
+          "range": [
+            1,
+            3
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "스팀 강도",
+        "displayType": "numberField",
+        "numberField": {
+          "command": "setLevel",
+          "range": [
+            1,
+            3
+          ]
+        }
+      }
+    ]
+  }
+}

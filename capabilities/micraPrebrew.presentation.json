@@ -1,0 +1,127 @@
+{
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "{{i18n.attributes.mode.label}}",
+      "displayType": "toggleSwitch",
+      "toggleSwitch": {
+        "command": {
+          "name": "setMode",
+          "on": "PreBrewing",
+          "off": "Disabled",
+          "argumentType": "string"
+        },
+        "state": {
+          "value": "mode.value",
+          "on": "PreBrewing",
+          "off": "Disabled",
+          "valueType": "string",
+          "label": "{{mode.value}}",
+          "alternatives": [
+            {
+              "key": "PreBrewing",
+              "value": "사용",
+              "type": "active"
+            },
+            {
+              "key": "Disabled",
+              "value": "사용 안 함",
+              "type": "inactive"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "프리브루잉",
+        "displayType": "list",
+        "list": {
+          "value": "mode.value",
+          "alternatives": [
+            {
+              "key": "PreBrewing",
+              "value": "사용"
+            },
+            {
+              "key": "Disabled",
+              "value": "사용 안 함"
+            }
+          ]
+        }
+      },
+      {
+        "label": "프리브루잉 물 공급 시간 (초)",
+        "displayType": "slider",
+        "slider": {
+          "value": "onTime.value",
+          "range": [
+            1,
+            9
+          ],
+          "step": 0.5
+        }
+      },
+      {
+        "label": "프리브루잉 대기 시간 (초)",
+        "displayType": "slider",
+        "slider": {
+          "value": "offTime.value",
+          "range": [
+            1,
+            9
+          ],
+          "step": 0.5
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "프리브루잉",
+        "displayType": "list",
+        "list": {
+          "command": "setMode",
+          "alternatives": [
+            {
+              "key": "PreBrewing",
+              "value": "사용"
+            },
+            {
+              "key": "Disabled",
+              "value": "사용 안 함"
+            }
+          ]
+        }
+      },
+      {
+        "label": "프리브루잉 물 공급 시간 (초)",
+        "displayType": "slider",
+        "slider": {
+          "command": "setOnTime",
+          "range": [
+            1,
+            9
+          ],
+          "step": 0.5
+        }
+      },
+      {
+        "label": "프리브루잉 대기 시간 (초)",
+        "displayType": "slider",
+        "slider": {
+          "command": "setOffTime",
+          "range": [
+            1,
+            9
+          ],
+          "step": 0.5
+        }
+      }
+    ]
+  }
+}

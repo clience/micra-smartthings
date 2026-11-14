@@ -1,0 +1,18 @@
+services:
+  micra-bridge:
+    build: .
+    restart: unless-stopped
+    user: "${MICRA_UID:-1000}:${MICRA_GID:-1000}"
+    ports:
+      - "${MICRA_LAN_IP:-127.0.0.1}:8765:8765"
+    volumes:
+      - ./.local:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    # Start in read-only mode. Add --enable-control after the real-machine diagnostic.
+    command: ["serve", "--host", "0.0.0.0"]

@@ -1,0 +1,13 @@
+{
+  "tag": "en",
+  "label": "스팀 강도",
+  "attributes": {
+    "level": {
+      "label": "단계",
+      "displayTemplate": "{{device.label}}의 {{attribute}}: {{value}}",
+      "i18n": {
+        "value": {}
+      }
+    }
+  }
+}

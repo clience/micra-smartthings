@@ -1,0 +1,20 @@
+{
+  "tag": "en",
+  "label": "공급·대기 시간",
+  "attributes": {
+    "onTime": {
+      "label": "물 공급 (초)",
+      "displayTemplate": "{{device.label}}의 {{attribute}}: {{value}}",
+      "i18n": {
+        "value": {}
+      }
+    },
+    "offTime": {
+      "label": "대기 (초)",
+      "displayTemplate": "{{device.label}}의 {{attribute}}: {{value}}",
+      "i18n": {
+        "value": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+# Linux host-network example. Build the image and configure the data directory first.
+services:
+  micra-bridge:
+    image: micra-smartthings:0.3.2
+    restart: unless-stopped
+    user: "${MICRA_UID:?Set data directory owner UID}:${MICRA_GID:?Set data directory owner GID}"
+    network_mode: host
+    volumes:
+      - "${MICRA_DATA_DIR:?Set absolute data directory}:/data"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    # Add --enable-control after checking the machine with diagnose.
+    command: ["serve", "--host", "${MICRA_LAN_IP:?Set server LAN IP}", "--port", "8765"]

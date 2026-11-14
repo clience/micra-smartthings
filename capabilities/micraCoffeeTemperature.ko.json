@@ -1,0 +1,13 @@
+{
+  "tag": "ko",
+  "label": "커피 목표 온도",
+  "attributes": {
+    "target": {
+      "label": "커피 목표 온도",
+      "displayTemplate": "{{device.label}}의 {{attribute}}: {{value}}",
+      "i18n": {
+        "value": {}
+      }
+    }
+  }
+}

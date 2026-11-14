@@ -1,0 +1,6 @@
+*
+!pyproject.toml
+!micra_bridge/
+!micra_bridge/*.py
+!README.md
+!LICENSE

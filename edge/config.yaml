@@ -1,0 +1,7 @@
+name: Micra LAN Bridge
+packageKey: personal.micra-lan-bridge.v1
+description: Experimental Linea Micra switch via an authenticated local Python bridge
+vendorSupportInformation: Personal experimental driver; see project README
+permissions:
+  lan: {}
+  discovery: {}

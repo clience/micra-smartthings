@@ -1,0 +1,101 @@
+{
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "{{i18n.attributes.enabled.label}}",
+      "displayType": "toggleSwitch",
+      "toggleSwitch": {
+        "command": {
+          "name": "setEnabled",
+          "on": "on",
+          "off": "off",
+          "argumentType": "string"
+        },
+        "state": {
+          "value": "enabled.value",
+          "on": "on",
+          "off": "off",
+          "valueType": "string",
+          "label": "{{enabled.value}}",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "스팀 보일러",
+        "displayType": "list",
+        "list": {
+          "value": "enabled.value",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐"
+            }
+          ]
+        }
+      },
+      {
+        "label": "스팀 강도",
+        "displayType": "numberField",
+        "numberField": {
+          "value": "level.value",
+          "range": [
+            1,
+            3
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "스팀 보일러",
+        "displayType": "list",
+        "list": {
+          "command": "setEnabled",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐"
+            }
+          ]
+        }
+      },
+      {
+        "label": "스팀 강도",
+        "displayType": "numberField",
+        "numberField": {
+          "command": "setLevel",
+          "range": [
+            1,
+            3
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "커피 목표 온도 (℃)",
+      "displayType": "slider",
+      "slider": {
+        "command": "setTarget",
+        "value": "target.value",
+        "step": 0.5,
+        "range": [
+          80,
+          100
+        ]
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "커피 목표 온도 (℃)",
+        "displayType": "slider",
+        "slider": {
+          "value": "target.value",
+          "range": [
+            80,
+            100
+          ],
+          "step": 0.5
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "커피 목표 온도 (℃)",
+        "displayType": "slider",
+        "slider": {
+          "command": "setTarget",
+          "range": [
+            80,
+            100
+          ],
+          "step": 0.5
+        }
+      }
+    ]
+  }
+}
