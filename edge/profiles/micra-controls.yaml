@@ -12,8 +12,6 @@ components:
       values:
       - key: enabled.value
         enabledValues: ["on", "off"]
-      - key: setEnabled
-        enabledValues: ["on", "off"]
   - id: islandventure29551.micraSteamIntensity
     version: 1
     config:
