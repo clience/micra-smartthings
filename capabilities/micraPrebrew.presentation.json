@@ -54,30 +54,6 @@
             }
           ]
         }
-      },
-      {
-        "label": "프리브루잉 물 공급 시간 (초)",
-        "displayType": "slider",
-        "slider": {
-          "value": "onTime.value",
-          "range": [
-            1,
-            9
-          ],
-          "step": 0.5
-        }
-      },
-      {
-        "label": "프리브루잉 대기 시간 (초)",
-        "displayType": "slider",
-        "slider": {
-          "value": "offTime.value",
-          "range": [
-            1,
-            9
-          ],
-          "step": 0.5
-        }
       }
     ],
     "actions": [
@@ -96,30 +72,6 @@
               "value": "사용 안 함"
             }
           ]
-        }
-      },
-      {
-        "label": "프리브루잉 물 공급 시간 (초)",
-        "displayType": "slider",
-        "slider": {
-          "command": "setOnTime",
-          "range": [
-            1,
-            9
-          ],
-          "step": 0.5
-        }
-      },
-      {
-        "label": "프리브루잉 대기 시간 (초)",
-        "displayType": "slider",
-        "slider": {
-          "command": "setOffTime",
-          "range": [
-            1,
-            9
-          ],
-          "step": 0.5
         }
       }
     ]

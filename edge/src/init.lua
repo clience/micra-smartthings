@@ -62,7 +62,15 @@ local function apply_state(device, state, err)
   end
 end
 
+local function ensure_profile(device)
+  if device:get_field("controls_profile_applied") ~= "micra-controls-v2" then
+    device:set_field("controls_profile_applied", "micra-controls-v2")
+    device:try_update_metadata({profile="micra-controls-v2"})
+  end
+end
+
 local function refresh(driver, device)
+  ensure_profile(device)
   if device:get_field("busy") then return end
   device:set_field("busy", true)
   local stream, revision = device:get_field("stream_id"), device:get_field("stream_revision")
@@ -142,9 +150,9 @@ end
 
 local function configure(driver, device)
   stop_timers(driver, device)
-  if not device:supports_capability(times) then
-    device:try_update_metadata({profile="micra-controls"})
-  end
+  -- Capability presence cannot detect presentation-only updates. Reapply the
+  -- packaged profile once per device session; infoChanged must not loop.
+  ensure_profile(device)
   local interval = math.max(30, math.min(300, tonumber(device.preferences.pollSeconds) or 30))
   device:set_field("poll", driver:call_on_schedule(interval, function()
     refresh(driver, device)
@@ -161,7 +169,7 @@ local function discovery(driver)
     type = "LAN",
     device_network_id = "micra-lan-bridge-v1",
     label = "Linea Micra",
-    profile = "micra-controls",
+    profile = "micra-controls-v2",
     manufacturer = "Personal Bridge",
     model = "Linea Micra Bridge",
     vendor_provided_label = "Linea Micra",

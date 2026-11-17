@@ -151,6 +151,10 @@ Python 중계 서버 테스트와 Lupa 기반 Lua 드라이버 테스트를 포�
 - `capabilities/`: 커스텀 capability 정의, presentation, 번역
 - `tests/`: 자동 검증
 
+자동화 화면에서는 스팀 강도와 프리브루잉 시간을 각각 한 번씩 표시합니다. 기존 자동화의 호환성을 위해 이전 capability의 명령 정의와 처리기는 유지합니다.
+
+Capability presentation 변경 후에는 `edge/profiles/micra-controls.yaml`의 내장 화면 설정도 갱신하고 드라이버를 다시 패키징합니다. 배포 후 기기의 실제 presentation에서 자동화 항목이 각각 한 번만 표시되는지 확인하세요.
+
 Edge 패키지 빌드:
 
 ```sh
@@ -160,7 +164,7 @@ npx --yes @smartthings/cli@3.0.1 edge:drivers:package edge --build-only dist/mic
 
 독립적인 포크를 배포하려면 `edge/config.yaml`의 `packageKey`를 변경하고, 본인의 SmartThings namespace로 capability를 등록한 다음 `edge/src/init.lua`와 프로필의 capability ID도 함께 변경하세요. 패키지를 업로드한 뒤 자신의 배포 채널에 할당합니다. 기존 공개 채널의 업데이트는 저장소 관리자만 배포합니다.
 
-현재 공개 드라이버 버전: `2026-11-14T12:24:03.288558855` (bridge `0.3.2`).
+현재 공개 드라이버 버전: `2026-11-17T01:15:56.881582703` (bridge `0.3.2`).
 공개 채널 ID: `eec2f5c8-e240-4fa1-a5f6-84bf3f478297`.
 
 ## 라이선스 및 감사

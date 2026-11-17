@@ -54,17 +54,6 @@
             }
           ]
         }
-      },
-      {
-        "label": "스팀 강도",
-        "displayType": "numberField",
-        "numberField": {
-          "value": "level.value",
-          "range": [
-            1,
-            3
-          ]
-        }
       }
     ],
     "actions": [
@@ -82,17 +71,6 @@
               "key": "off",
               "value": "꺼짐"
             }
-          ]
-        }
-      },
-      {
-        "label": "스팀 강도",
-        "displayType": "numberField",
-        "numberField": {
-          "command": "setLevel",
-          "range": [
-            1,
-            3
           ]
         }
       }

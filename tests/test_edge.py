@@ -104,11 +104,19 @@ def test_driver_lifecycle_and_no_optimistic_switch(lua):
       function device:offline() self.connected=false end
       function device:emit_event(e) self.events[#self.events+1]=e end
       function device:supports_capability(cap) return not self.missing_profile end
-      function device:try_update_metadata(meta) self.requested_profile=meta.profile end
+      function device:try_update_metadata(meta)
+        self.requested_profile=meta.profile
+        self.metadata_updates=(self.metadata_updates or 0)+1
+      end
       require "init"
       decoded_response={api_version=1,online=true,power=false,observed_at=os.time()}
       driver.lifecycle_handlers.init(driver,device)
       assert(device.connected==true and device.events[1]=="off")
+      -- Existing devices already have every capability but need the new presentation.
+      assert(device.requested_profile=="micra-controls-v2" and device.metadata_updates==1)
+      driver.lifecycle_handlers.infoChanged(driver,device)
+      assert(device.metadata_updates==1)
+      device.events={device.events[1]}
       decoded_response={accepted=true,confirmed=false}; response_code=202
       driver.capability_handlers.switch.on(driver,device)
       assert(#device.events==1) -- No optimistic ON event.
@@ -118,7 +126,7 @@ def test_driver_lifecycle_and_no_optimistic_switch(lua):
       driver.lifecycle_handlers.removed(driver,device)
       assert(device.fields.poll==nil and device.fields.followup==nil)
       driver.discovery(driver)
-      assert(driver.created.type=="LAN" and driver.created.profile=="micra-controls")
+      assert(driver.created.type=="LAN" and driver.created.profile=="micra-controls-v2")
       response_error=false; response_code=200; device.events={}
       decoded_response={api_version=1,online=true,power=false,observed_at=os.time(),websocket_connected=true}
       driver.lifecycle_handlers.init(driver,device)
@@ -180,7 +188,7 @@ def test_driver_lifecycle_and_no_optimistic_switch(lua):
       assert(driver.capability_handlers["islandventure29551.micraCleaning"]==nil)
       device.missing_profile=true
       driver.lifecycle_handlers.init(driver,device)
-      assert(device.requested_profile=="micra-controls")
+      assert(device.requested_profile=="micra-controls-v2")
       driver.lifecycle_handlers.removed(driver,device)
     ''')
 
@@ -192,8 +200,29 @@ def test_edge_profile_matches_driver():
     prefs = {p["name"]: p for p in profile["preferences"]}
     assert prefs["bridgeToken"]["definition"]["stringType"] == "password"
     expanded = yaml.safe_load((ROOT / "edge/profiles/micra-controls.yaml").read_text())
-    assert expanded['name'] == 'micra-controls'
+    assert expanded['name'] == 'micra-controls-v2'
     assert {c['id'] for c in expanded['components'][0]['capabilities']} == {
         'switch', 'refresh', 'islandventure29551.micraSteam',
         'islandventure29551.micraCoffeeTemperature', 'islandventure29551.micraPrebrew',
         'islandventure29551.micraSteamIntensity', 'islandventure29551.micraPrebrewTimes'}
+
+
+@pytest.mark.parametrize('section', ['conditions', 'actions'])
+def test_automation_controls_have_one_entry_per_setting(section):
+    """Routine editors must not expose both legacy and split control rows."""
+    import json
+    from collections import Counter
+
+    profile = yaml.safe_load((ROOT / 'edge/profiles/micra-controls.yaml').read_text())
+    rows = []
+    for capability in profile['components'][0]['capabilities']:
+        if not capability['id'].startswith('islandventure29551.'):
+            continue
+        name = capability['id'].split('.', 1)[1]
+        presentation = json.loads((ROOT / f'capabilities/{name}.presentation.json').read_text())
+        rows.extend(presentation['automation'][section])
+    assert Counter(row['label'] for row in rows) == Counter({
+        '스팀 보일러': 1, '스팀 강도': 1, '커피 목표 온도 (℃)': 1,
+        '프리브루잉': 1, '프리브루잉 물 공급 시간 (초)': 1,
+        '프리브루잉 대기 시간 (초)': 1,
+    })
