@@ -33,6 +33,14 @@ local function apply_state(device, state, err)
   if settings.steam and device:supports_capability(steam) then
     if type(settings.steam.enabled) == "boolean" then
       device:emit_event(steam.enabled(settings.steam.enabled and "on" or "off"))
+      -- Native switch conditions expose the app's "on or off" option.
+      -- Keep the legacy attribute for existing routines and the detail card.
+      if device.profile.components.steam then
+        device:emit_component_event(device.profile.components.steam, {
+          settings.steam.enabled and capabilities.switch.switch.on()
+            or capabilities.switch.switch.off()
+        })
+      end
     end
     local level = settings.steam.level
     if type(level) == "number" and level >= 1 and level <= 3 and level % 1 == 0 then
@@ -63,9 +71,9 @@ local function apply_state(device, state, err)
 end
 
 local function ensure_profile(device)
-  if device:get_field("controls_profile_applied") ~= "micra-controls-v2" then
-    device:set_field("controls_profile_applied", "micra-controls-v2")
-    device:try_update_metadata({profile="micra-controls-v2"})
+  if device:get_field("controls_profile_applied") ~= "micra-controls-v3" then
+    device:set_field("controls_profile_applied", "micra-controls-v3")
+    device:try_update_metadata({profile="micra-controls-v3"})
   end
 end
 
@@ -127,6 +135,17 @@ local function power(driver, device, enabled)
   send_command(driver, device, "/v1/power", {on=enabled})
 end
 
+local function switch_handler(enabled)
+  return function(driver, device, command)
+    local component = command and command.component or "main"
+    if component == "steam" then
+      send_command(driver, device, "/v1/settings", {setting="steam_enabled",value=enabled})
+    elseif component == "main" then
+      power(driver, device, enabled)
+    end
+  end
+end
+
 local function setting_handler(name, is_switch)
   return function(driver, device, command)
     local value = command.args.value
@@ -169,7 +188,7 @@ local function discovery(driver)
     type = "LAN",
     device_network_id = "micra-lan-bridge-v1",
     label = "Linea Micra",
-    profile = "micra-controls-v2",
+    profile = "micra-controls-v3",
     manufacturer = "Personal Bridge",
     model = "Linea Micra Bridge",
     vendor_provided_label = "Linea Micra",
@@ -201,8 +220,8 @@ Driver("micra-lan-bridge", {
       setOffTime = setting_handler("prebrew_off"),
     },
     [capabilities.switch.ID] = {
-      [capabilities.switch.commands.on.NAME] = function(driver, device) power(driver, device, true) end,
-      [capabilities.switch.commands.off.NAME] = function(driver, device) power(driver, device, false) end,
+      [capabilities.switch.commands.on.NAME] = switch_handler(true),
+      [capabilities.switch.commands.off.NAME] = switch_handler(false),
     },
     [capabilities.refresh.ID] = {
       [capabilities.refresh.commands.refresh.NAME] = refresh,

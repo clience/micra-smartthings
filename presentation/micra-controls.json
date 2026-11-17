@@ -1,0 +1,330 @@
+{
+  "type": "profile",
+  "dashboard": {
+    "states": [
+      {
+        "component": "main",
+        "capability": "switch",
+        "version": 1,
+        "idx": 0,
+        "group": "main",
+        "values": [],
+        "composite": false
+      }
+    ],
+    "actions": [
+      {
+        "component": "main",
+        "capability": "switch",
+        "version": 1,
+        "idx": 0,
+        "group": "main",
+        "inline": null
+      }
+    ],
+    "basicPlus": []
+  },
+  "detailView": [
+    {
+      "component": "main",
+      "capability": "switch",
+      "version": 1,
+      "values": [],
+      "patch": []
+    },
+    {
+      "component": "main",
+      "capability": "refresh",
+      "version": 1,
+      "values": [],
+      "patch": []
+    },
+    {
+      "component": "main",
+      "capability": "islandventure29551.micraSteam",
+      "version": 1,
+      "values": [],
+      "patch": []
+    },
+    {
+      "component": "main",
+      "capability": "islandventure29551.micraSteamIntensity",
+      "version": 1,
+      "values": [
+        {
+          "enabledValues": [],
+          "range": [
+            1,
+            3
+          ],
+          "step": 1,
+          "key": "level.value"
+        }
+      ],
+      "patch": []
+    },
+    {
+      "component": "main",
+      "capability": "islandventure29551.micraCoffeeTemperature",
+      "version": 1,
+      "values": [
+        {
+          "enabledValues": [],
+          "range": [
+            80,
+            100
+          ],
+          "step": 0.5,
+          "key": "target.value"
+        }
+      ],
+      "patch": []
+    },
+    {
+      "component": "main",
+      "capability": "islandventure29551.micraPrebrew",
+      "version": 1,
+      "values": [
+        {
+          "enabledValues": [
+            "PreBrewing",
+            "Disabled"
+          ],
+          "step": 1,
+          "key": "setMode"
+        }
+      ],
+      "patch": []
+    },
+    {
+      "component": "main",
+      "capability": "islandventure29551.micraPrebrewTimes",
+      "version": 1,
+      "values": [
+        {
+          "key": "onTime.value",
+          "range": [
+            1,
+            9
+          ],
+          "step": 0.5
+        },
+        {
+          "key": "offTime.value",
+          "range": [
+            1,
+            9
+          ],
+          "step": 0.5
+        }
+      ],
+      "patch": []
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "component": "main",
+        "capability": "switch",
+        "version": 1,
+        "values": [],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "steam",
+        "capability": "switch",
+        "version": 1,
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/0/label",
+            "value": "스팀 보일러"
+          }
+        ]
+      },
+      {
+        "component": "main",
+        "capability": "islandventure29551.micraSteamIntensity",
+        "version": 1,
+        "values": [
+          {
+            "enabledValues": [],
+            "range": [
+              1,
+              3
+            ],
+            "step": 1,
+            "key": "level.value"
+          }
+        ],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "main",
+        "capability": "islandventure29551.micraCoffeeTemperature",
+        "version": 1,
+        "values": [
+          {
+            "enabledValues": [],
+            "range": [
+              80,
+              100
+            ],
+            "step": 0.5,
+            "key": "target.value"
+          }
+        ],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "main",
+        "capability": "islandventure29551.micraPrebrew",
+        "version": 1,
+        "values": [
+          {
+            "enabledValues": [
+              "PreBrewing",
+              "Disabled"
+            ],
+            "step": 1,
+            "key": "mode.value"
+          }
+        ],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "main",
+        "capability": "islandventure29551.micraPrebrewTimes",
+        "version": 1,
+        "values": [
+          {
+            "key": "onTime.value",
+            "range": [
+              1,
+              9
+            ],
+            "step": 0.5
+          },
+          {
+            "key": "offTime.value",
+            "range": [
+              1,
+              9
+            ],
+            "step": 0.5
+          }
+        ],
+        "patch": [],
+        "exclusion": []
+      }
+    ],
+    "actions": [
+      {
+        "component": "main",
+        "capability": "switch",
+        "version": 1,
+        "values": [],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "main",
+        "capability": "refresh",
+        "version": 1,
+        "values": [],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "main",
+        "capability": "islandventure29551.micraSteam",
+        "version": 1,
+        "values": [],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "main",
+        "capability": "islandventure29551.micraSteamIntensity",
+        "version": 1,
+        "values": [
+          {
+            "enabledValues": [],
+            "range": [
+              1,
+              3
+            ],
+            "step": 1,
+            "key": "setLevel"
+          }
+        ],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "main",
+        "capability": "islandventure29551.micraCoffeeTemperature",
+        "version": 1,
+        "values": [
+          {
+            "enabledValues": [],
+            "range": [
+              80,
+              100
+            ],
+            "step": 0.5,
+            "key": "setTarget"
+          }
+        ],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "main",
+        "capability": "islandventure29551.micraPrebrew",
+        "version": 1,
+        "values": [
+          {
+            "enabledValues": [
+              "PreBrewing",
+              "Disabled"
+            ],
+            "step": 1,
+            "key": "setMode"
+          }
+        ],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "main",
+        "capability": "islandventure29551.micraPrebrewTimes",
+        "version": 1,
+        "values": [
+          {
+            "key": "setOnTime",
+            "range": [
+              1,
+              9
+            ],
+            "step": 0.5
+          },
+          {
+            "key": "setOffTime",
+            "range": [
+              1,
+              9
+            ],
+            "step": 0.5
+          }
+        ],
+        "patch": [],
+        "exclusion": []
+      }
+    ]
+  }
+}

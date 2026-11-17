@@ -1,4 +1,4 @@
-name: micra-controls-v2
+name: micra-controls-v3
 components:
 - id: main
   capabilities:
@@ -8,74 +8,21 @@ components:
     version: 1
   - id: islandventure29551.micraSteam
     version: 1
-    config:
-      values:
-      - key: enabled.value
-        enabledValues: ["on", "off"]
   - id: islandventure29551.micraSteamIntensity
     version: 1
-    config:
-      values:
-      - key: level.value
-        range:
-        - 1
-        - 3
-        step: 1
-      - key: setLevel
-        range:
-        - 1
-        - 3
-        step: 1
   - id: islandventure29551.micraCoffeeTemperature
     version: 1
-    config:
-      values:
-      - key: target.value
-        range:
-        - 80
-        - 100
-        step: 0.5
-      - key: setTarget
-        range:
-        - 80
-        - 100
-        step: 0.5
   - id: islandventure29551.micraPrebrew
     version: 1
-    config:
-      values:
-      - key: mode.value
-        enabledValues:
-        - PreBrewing
-        - Disabled
-      - key: setMode
-        enabledValues:
-        - PreBrewing
-        - Disabled
   - id: islandventure29551.micraPrebrewTimes
     version: 1
-    config:
-      values:
-      - key: onTime.value
-        range:
-        - 1
-        - 9
-        step: 0.5
-      - key: setOnTime
-        range:
-        - 1
-        - 9
-        step: 0.5
-      - key: offTime.value
-        range:
-        - 1
-        - 9
-        step: 0.5
-      - key: setOffTime
-        range:
-        - 1
-        - 9
-        step: 0.5
+  categories:
+  - name: Switch
+- id: steam
+  label: 스팀 보일러
+  capabilities:
+  - id: switch
+    version: 1
   categories:
   - name: Switch
 preferences:
@@ -116,3 +63,6 @@ preferences:
     minimum: 30
     maximum: 300
     default: 30
+metadata:
+  vid: 8d7efdf3-4002-3e56-a400-aa23c4a6a963
+  mnmn: SmartThingsCommunity
