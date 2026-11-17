@@ -1,7 +1,7 @@
 # Linux host-network example. Build the image and configure the data directory first.
 services:
   micra-bridge:
-    image: micra-smartthings:0.3.2
+    image: micra-smartthings:0.3.3
     restart: unless-stopped
     user: "${MICRA_UID:?Set data directory owner UID}:${MICRA_GID:?Set data directory owner GID}"
     network_mode: host

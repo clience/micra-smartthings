@@ -63,6 +63,7 @@ async def test_control_mapping_preserves_other_setting(machine,setting,value,met
 
 
 @pytest.mark.parametrize('setting,value',[
+    ('steam_toggle',False),('steam_toggle',1),('steam_toggle','toggle'),
     ('steam_enabled','true'),('steam_enabled',1),('steam_level',True),('steam_level',1.5),
     ('steam_level',4),('coffee_temperature',100.1),('coffee_temperature',93.05),
     ('coffee_temperature',93.1),('prebrew_on',2.1),('prebrew_off',4.1),
@@ -98,14 +99,15 @@ async def test_other_prebrew_time_comes_from_fresh_read(machine):
     machine.set_pre_extraction_times.assert_awaited_once_with(3.0,7)
 
 
-async def test_offline_and_command_failure_never_replay(machine):
+@pytest.mark.parametrize('setting', ['steam_enabled', 'steam_toggle'])
+async def test_offline_and_command_failure_never_replay(machine, setting):
     backend=MachineBackend(machine)
     machine.dashboard.connected=False
-    with pytest.raises(BridgeError,match='machine_offline'):await backend.set_setting('steam_enabled',True)
+    with pytest.raises(BridgeError,match='machine_offline'):await backend.set_setting(setting,True)
     machine.set_steam.assert_not_awaited()
     machine.dashboard.connected=True
     machine.set_steam.side_effect=TimeoutError('secret')
-    with pytest.raises(BridgeError,match='command_outcome_unknown'):await backend.set_setting('steam_enabled',True)
+    with pytest.raises(BridgeError,match='command_outcome_unknown'):await backend.set_setting(setting,True)
     machine.set_steam.assert_awaited_once()
 
 
@@ -144,3 +146,39 @@ async def test_partial_setting_push_is_immediate_and_never_merges_optimistic_sta
         assert after['settings']['coffee']['target']==95
         assert after['settings']['prebrew']['off']==4
     finally:await backend.close()
+
+
+@pytest.mark.parametrize('current', [True, False])
+async def test_steam_toggle_uses_fresh_read_under_lock(machine, current):
+    backend = MachineBackend(machine)
+    steam = machine.dashboard.config[WidgetType.CM_STEAM_BOILER_LEVEL]
+    steam.enabled = not current
+    backend.cached = snapshot(machine)
+    async def read():
+        assert backend.lock.locked()
+        steam.enabled = current
+    machine.get_dashboard.side_effect = read
+    await backend.set_setting('steam_toggle', True)
+    machine.get_dashboard.assert_awaited_once()
+    machine.set_steam.assert_awaited_once_with(not current)
+    assert backend.cached is None
+
+
+@pytest.mark.parametrize('enabled,supported', [(None, True), (False, False)])
+async def test_steam_toggle_needs_known_supported_state(machine, enabled, supported):
+    steam = machine.dashboard.config[WidgetType.CM_STEAM_BOILER_LEVEL]
+    steam.enabled = enabled
+    steam.enabled_supported = supported
+    with pytest.raises(InvalidSetting):
+        await MachineBackend(machine).set_setting('steam_toggle', True)
+    machine.set_steam.assert_not_awaited()
+
+
+async def test_toggle_http_action_requires_control_permission(machine):
+    for control in (False, True):
+        async with TestClient(TestServer(create_app(MachineBackend(machine), TOKEN, control))) as client:
+            body = {'setting': 'steam_toggle', 'value': True}
+            assert (await client.post('/v1/settings', json=body)).status == 401
+            response = await client.post('/v1/settings', headers=AUTH, json=body)
+            assert response.status == (202 if control else 403)
+    machine.set_steam.assert_awaited_once_with(True)

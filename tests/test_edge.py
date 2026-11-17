@@ -181,6 +181,9 @@ def test_driver_lifecycle_and_no_optimistic_switch(lua):
       decoded_response={accepted=true,confirmed=false};response_code=202
       driver.capability_handlers["islandventure29551.micraSteam"].setEnabled(driver,device,{args={value="on"}})
       assert(encoded_value.setting=="steam_enabled" and encoded_value.value==true)
+      driver.capability_handlers["islandventure29551.micraSteam"].setEnabled(driver,device,{args={value="toggle"}})
+      assert(encoded_value.setting=="steam_toggle" and encoded_value.value==true)
+      assert(last_request.url:find("/v1/settings",1,true) and #device.events==count)
       driver.capability_handlers.switch.off(driver,device,{component="steam"})
       assert(encoded_value.setting=="steam_enabled" and encoded_value.value==false)
       assert(last_request.url:find("/v1/settings",1,true))
@@ -269,3 +272,18 @@ def test_native_steam_condition_preserves_custom_controls():
     for section in [config['detailView'], config['automation']['actions']]:
         assert not any(e['component'] == 'steam' for e in section)
         assert any(e['capability'] == 'islandventure29551.micraSteam' for e in section)
+
+
+def test_steam_toggle_is_an_action_not_a_reported_state():
+    import json
+    definition = json.loads((ROOT / 'capabilities/micraSteam.definition.json').read_text())
+    presentation = json.loads((ROOT / 'capabilities/micraSteam.presentation.json').read_text())
+    config = json.loads((ROOT / 'presentation/micra-controls.json').read_text())
+    assert definition['attributes']['enabled']['schema']['properties']['value']['enum'] == ['on', 'off']
+    assert definition['commands']['setEnabled']['arguments'][0]['schema']['enum'] == ['on', 'off', 'toggle']
+    action = presentation['automation']['actions'][0]['list']
+    assert action['command'] == 'setEnabled'
+    assert [(a['key'], a['value']) for a in action['alternatives']] == [
+        ('on', '켜짐'), ('off', '꺼짐'), ('toggle', '켜짐 또는 꺼짐')]
+    entry = next(e for e in config['automation']['actions'] if e['capability'].endswith('.micraSteam'))
+    assert entry['values'][0]['enabledValues'] == ['on', 'off', 'toggle']

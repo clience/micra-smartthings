@@ -71,6 +71,10 @@
             {
               "key": "off",
               "value": "꺼짐"
+            },
+            {
+              "key": "toggle",
+              "value": "켜짐 또는 꺼짐"
             }
           ]
         }

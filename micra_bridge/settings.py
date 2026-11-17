@@ -27,6 +27,9 @@ def validate_input(setting, value):
     if setting == 'steam_enabled':
         if type(value) is not bool:
             raise InvalidSetting('expected_boolean')
+    elif setting == 'steam_toggle':
+        if value is not True:
+            raise InvalidSetting('expected_toggle_request')
     elif setting == 'prebrew_mode':
         if value not in ('PreBrewing', 'Disabled'):
             raise InvalidSetting('unsupported_prebrew_mode')
@@ -66,9 +69,15 @@ def prepare_command(machine, settings, setting, value):
     validate_input(setting, value)
     if setting.startswith('steam_'):
         steam = settings.get('steam')
-        supported = 'enabled_supported' if setting == 'steam_enabled' else 'level_supported'
+        supported = 'enabled_supported' if setting in ('steam_enabled', 'steam_toggle') else 'level_supported'
         if not steam or not steam[supported]:
             raise InvalidSetting('steam_control_unavailable')
+        if setting == 'steam_toggle':
+            current = steam.get('enabled')
+            if type(current) is not bool:
+                raise InvalidSetting('steam_state_unavailable')
+            # set_setting holds the backend lock and passes a fresh machine read.
+            return partial(machine.set_steam, not current)
         if setting == 'steam_enabled':
             return partial(machine.set_steam, value)
         return partial(machine.set_steam_level, SteamTargetLevel(f'Level{int(value)}'))

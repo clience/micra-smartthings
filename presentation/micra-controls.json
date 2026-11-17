@@ -243,7 +243,16 @@
         "component": "main",
         "capability": "islandventure29551.micraSteam",
         "version": 1,
-        "values": [],
+        "values": [
+          {
+            "key": "setEnabled",
+            "enabledValues": [
+              "on",
+              "off",
+              "toggle"
+            ]
+          }
+        ],
         "patch": [],
         "exclusion": []
       },

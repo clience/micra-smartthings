@@ -105,7 +105,7 @@ docker compose logs --tail 30
 Linux NAS에서 host 네트워크가 필요한 경우 [compose.portainer.yaml](compose.portainer.yaml)을 참고하세요. 이미지를 먼저 빌드한 뒤 `MICRA_DATA_DIR`, `MICRA_UID`, `MICRA_GID`, `MICRA_LAN_IP`를 지정합니다. 이 예시도 기본값은 조회 전용이며, 제어하려면 `command`에 `--enable-control`을 추가합니다.
 
 ```sh
-docker build -t micra-smartthings:0.3.2 .
+docker build -t micra-smartthings:0.3.3 .
 ```
 
 ## 2. 공개 Edge 드라이버 설치
@@ -153,6 +153,8 @@ Python 중계 서버 테스트와 Lupa 기반 Lua 드라이버 테스트를 포�
 
 자동화 화면에서는 스팀 강도와 프리브루잉 시간을 각각 한 번씩 표시합니다. 스팀 보일러의 자동화 조건은 별도 `steam` 컴포넌트의 표준 `switch`를 사용합니다. 스마트싱스 앱의 기본 ‘켜짐 / 꺼짐 / 켜짐 또는 꺼짐’ 선택지를 사용하기 위한 구성입니다. 상세 제어와 기존 자동화는 기존 커스텀 capability를 유지합니다. 기존 자동화의 호환성을 위해 이전 capability의 명령 정의와 처리기는 유지합니다.
 
+스팀 보일러의 자동화 **동작**에서는 ‘켜짐 / 꺼짐 / 켜짐 또는 꺼짐’을 선택합니다. ‘켜짐 또는 꺼짐’은 실행할 때마다 스팀을 반대로 바꾸는 토글입니다. 중계 서버 0.3.3 이상이 필요하며, 매번 머신에서 조회한 현재 상태를 기준으로 전환합니다. 상태를 확인할 수 없으면 명령을 보내지 않습니다.
+
 기기 화면 구성은 `presentation/micra-controls.json`에서 관리합니다. 스팀 보일러 조건에는 표준 switch만, 상세 화면과 동작에는 기존 커스텀 제어만 표시하므로 항목이 중복되지 않습니다.
 
 Capability presentation이나 화면 구성 변경 후에는 아래 명령으로 새 화면을 생성하고, 반환된 `vid`를 `edge/profiles/micra-controls.yaml`의 `metadata.vid`에 반영한 뒤 드라이버를 다시 패키징합니다. 프로필의 capability에 내장 `config`를 추가하면 이 화면 설정을 덮어쓸 수 있으므로 범위·단위 설정도 JSON에서 관리하세요.
@@ -172,7 +174,7 @@ npx --yes @smartthings/cli@3.0.1 edge:drivers:package edge --build-only dist/mic
 
 독립적인 포크를 배포하려면 `edge/config.yaml`의 `packageKey`를 변경하고, 본인의 SmartThings namespace로 capability를 등록한 다음 `edge/src/init.lua`와 프로필의 capability ID도 함께 변경하세요. 패키지를 업로드한 뒤 자신의 배포 채널에 할당합니다. 기존 공개 채널의 업데이트는 저장소 관리자만 배포합니다.
 
-현재 공개 드라이버 버전: `2026-11-17T03:52:24.214805159` (bridge `0.3.2`).
+현재 공개 드라이버 버전: `2026-11-17T05:06:30.148298091` (bridge `0.3.3`).
 공개 채널 ID: `eec2f5c8-e240-4fa1-a5f6-84bf3f478297`.
 
 ## 라이선스 및 감사

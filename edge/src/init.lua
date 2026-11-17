@@ -150,6 +150,10 @@ local function setting_handler(name, is_switch)
   return function(driver, device, command)
     local value = command.args.value
     if is_switch then
+      if name == "steam_enabled" and value == "toggle" then
+        send_command(driver, device, "/v1/settings", {setting="steam_toggle",value=true})
+        return
+      end
       if value ~= "on" and value ~= "off" then return end
       value = value == "on"
     end

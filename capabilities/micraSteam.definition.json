@@ -51,7 +51,8 @@
             "type": "string",
             "enum": [
               "on",
-              "off"
+              "off",
+              "toggle"
             ]
           }
         }
